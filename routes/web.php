@@ -26,5 +26,5 @@ Route::get('/about', fn () =>
 );
 
 Route::get('/news', fn () => 
-    "News page"
+    "News page!"
 );
