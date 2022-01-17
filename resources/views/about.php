@@ -1,0 +1,2 @@
+<h1>Агрегатор Новостей</h1>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, vero iste? Nobis voluptatum laboriosam minima impedit temporibus rem aliquam et nesciunt placeat, quasi quis optio facilis perferendis praesentium voluptas reiciendis.</p>
