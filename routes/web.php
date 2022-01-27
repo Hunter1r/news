@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\ImportNewsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,17 +26,23 @@ Route::get('/hello/{name}', fn (string $name) =>
 Route::get('/about', fn () => view('about')
 );
 
+
+Route::resource('/feedback', FeedbackController::class);
+Route::resource('/news/import', ImportNewsController::class);
+
+
+
+// Route::get('/news/import', fn () => view('importNewsForm'))->name('news.import');
+
 Route::get('/news', fn () => 
     "News page"
 );
 
-// Route::get('/news/{id}', [NewsController::class, 'getNewsItem']
-// );
-
-Route::get('/news/{category}', [NewsController::class, 'getNewsByCategory']
-);
+Route::get('/news/{category}', [NewsController::class, 'getNewsByCategory'])
+->name('news.category');
 
 Route::get('/news/{category}/{id}', [NewsController::class, 'getNewsItem'])
-->where('id', '\d+');
+->where('id', '\d+')
+->name('news.item');
 
 Route::get('/category', [CategoryController::class, 'index']);

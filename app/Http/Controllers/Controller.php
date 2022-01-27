@@ -11,8 +11,23 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public function prepareTopNews($news){
+        $maxId = 0;
+        foreach ($news as $item) {
+            $maxId = $item['id'] > $maxId ? $item['id'] : $maxId;
+        }
+        $id = mt_rand(0,$maxId-1);
+
+        return $news[$id];
+
+    }
     public function index() {
-        return view('index');
+        $news = $this->getNews();
+        $categories = $this->getCategories($news);
+        return view('layouts.mainNews', ['categories'=>$categories, 
+        'topNews0'=>$this->prepareTopNews($news),
+        'topNews1'=>$this->prepareTopNews($news),
+        'topNews2'=>$this->prepareTopNews($news)]);
     }
 
     public function getCategories($news) {
