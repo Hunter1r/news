@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\FeedbackController;
@@ -38,11 +37,13 @@ Route::get('/news', fn () =>
     "News page"
 );
 
-Route::get('/news/{category}', [NewsController::class, 'getNewsByCategory'])
-->name('news.category');
+// Route::get('/news/{id}', [NewsController::class, 'getNewsItem']
+// );
+
+Route::get('/news/{category}', [NewsController::class, 'getNewsByCategory']
+);
 
 Route::get('/news/{category}/{id}', [NewsController::class, 'getNewsItem'])
-->where('id', '\d+')
-->name('news.item');
+->where('id', '\d+');
 
 Route::get('/category', [CategoryController::class, 'index']);

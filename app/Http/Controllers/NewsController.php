@@ -12,7 +12,6 @@ class NewsController extends Controller
 
     public function getNewsByCategory($category) {
         $news = $this->getNews();
-        $categories = $this->getCategories($news);
         $filteredNews = [];
         foreach($news as $key=>$value) {
             if ($value['category'] === $category) {
@@ -20,14 +19,12 @@ class NewsController extends Controller
             }
         }
         
-        return view('layouts.newsByCategory', ['news'=>$filteredNews,
-    'categories' => $categories]);
+        return view('news', ['news'=>$filteredNews]);
 
     }
 
     public function getNewsItem($category, $id) {
         $news = $this->getNews();
-        $categories = $this->getCategories($news);
         $item = [];
         
         foreach($news as $key=>$value) {
@@ -39,7 +36,6 @@ class NewsController extends Controller
         if(empty($item)){
             abort(404);
         }
-        
-        return view('layouts.newsItem', ['item'=>$item[0], 'categories' => $categories]);
+        return view('newsItem', ['item'=>$item[0]]);
     }
 }
