@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsController;
-use App\Http\Controllers\FeedbackController;
-use App\Http\Controllers\ImportNewsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,14 +23,6 @@ Route::get('/hello/{name}', fn (string $name) =>
 
 Route::get('/about', fn () => view('about')
 );
-
-
-Route::resource('/feedback', FeedbackController::class);
-Route::resource('/news/import', ImportNewsController::class);
-
-
-
-// Route::get('/news/import', fn () => view('importNewsForm'))->name('news.import');
 
 Route::get('/news', fn () => 
     "News page"
