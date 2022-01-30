@@ -38,10 +38,10 @@ Route::get('/news', fn () =>
     "News page"
 );
 
-Route::get('/news/{category}', [NewsController::class, 'getNewsByCategory'])
+Route::get('/news/{category_id}', [NewsController::class, 'getNewsByCategory'])
 ->name('news.category');
 
-Route::get('/news/{category}/{id}', [NewsController::class, 'getNewsItem'])
+Route::get('/news/{category_id}/{id}', [NewsController::class, 'getNewsItem'])
 ->where('id', '\d+')
 ->name('news.item');
 

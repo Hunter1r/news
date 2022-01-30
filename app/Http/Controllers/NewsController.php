@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\News;
 
 class NewsController extends Controller
 {
@@ -10,36 +12,31 @@ class NewsController extends Controller
 
     }
 
-    public function getNewsByCategory($category) {
-        $news = $this->getNews();
-        $categories = $this->getCategories($news);
-        $filteredNews = [];
-        foreach($news as $key=>$value) {
-            if ($value['category'] === $category) {
-                $filteredNews[] = $news[$key];
-            }
-        }
+    public function getNewsByCategory($category_id) {
+
+        $newsModel = new News();
+        $categoryModel = new Category();
+
+        $categories = $categoryModel->getCategories();
+        $filteredNews = $newsModel->getNewsByCategory($category_id);
         
         return view('layouts.newsByCategory', ['news'=>$filteredNews,
     'categories' => $categories]);
 
     }
 
-    public function getNewsItem($category, $id) {
-        $news = $this->getNews();
-        $categories = $this->getCategories($news);
-        $item = [];
+    public function getNewsItem($category_id, $id) {
         
-        foreach($news as $key=>$value) {
-            if ($value['category'] === $category && $value['id'] === (integer)$id ) { 
-                $item[] = $news[$key];
-            }
-        }
+        $newsModel = new News();
+        $categoryModel = new Category();
+
+        $categories = $categoryModel->getCategories();
+        
+        $item = $newsModel->getNewsItem($category_id,$id);
         
         if(empty($item)){
             abort(404);
         }
-        
         return view('layouts.newsItem', ['item'=>$item[0], 'categories' => $categories]);
     }
 }
