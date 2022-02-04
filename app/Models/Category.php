@@ -11,7 +11,7 @@ class Category extends Model
 
     public function getCategories() {
 
-        $categories = \DB::select("SELECT categories.id, categories.name FROM categories");
+        $categories = Category::select('id as category_id', 'name as category_name')->get();
 
         return $categories;
     }
