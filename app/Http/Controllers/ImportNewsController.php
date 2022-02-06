@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Order;
 
 class ImportNewsController extends Controller
 {
@@ -34,9 +35,10 @@ class ImportNewsController extends Controller
      */
     public function store(Request $request)
     {
-        $data = json_encode($request->only(['name','email','message','phone']));
-        file_put_contents(public_path('news/importNews.json'),$data);
-        return redirect('/');
+        $order = New Order();
+        $order->fill($request->all());
+        $order->save();
+        return redirect('/')->with('status', 'Order for news is created');
     }
 
     /**

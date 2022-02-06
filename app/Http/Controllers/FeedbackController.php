@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Feedback;
 
 class FeedbackController extends Controller
 {
@@ -34,10 +35,11 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        $data = json_encode($request->only(['name','email','message']));
-        file_put_contents(public_path('news/feedbacks.json'),$data);
-        
-        return redirect('/');
+
+        $feedbackModel = new Feedback();
+        $feedbackModel->fill($request->all());
+        $feedbackModel->save();
+        return redirect('/')->with('status', 'Feedback is created');
     }
 
     /**
