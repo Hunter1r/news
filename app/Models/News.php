@@ -9,6 +9,16 @@ class News extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['news_id','title','date','slug','author','active','image','description','category_id'];
+
+    public function getNews() {
+
+        return News::select('news.id as news_id', 'title','date','slug','author','active','image','description','categories.id as category_id', 'categories.name as category_name')
+        ->leftJoin('categories', 'news.category_id', '=', 'categories.id')
+        ->paginate(10);
+        
+    }
+
     public function getNewsItem(int $category_id, int $id) {
 
         return News::select('news.id as news_id', 'title','date','slug','author','active','image','description','categories.id as category_id', 'categories.name as category_name')

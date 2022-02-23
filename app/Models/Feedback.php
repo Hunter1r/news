@@ -13,7 +13,7 @@ class Feedback extends Model
     protected $fillable = ['name','email','feedback'];
 
     public function getFeedbacks() {
-        return Feedback::all();
+        return Feedback::paginate(10);
     }
 
     public function getFeedbackById($id) {

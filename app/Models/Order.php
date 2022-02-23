@@ -12,7 +12,7 @@ class Order extends Model
     protected $fillable = ['name','email','phone','description'];
 
     public function getOrders() {
-        return Order::all();
+        return Order::paginate(10);
     }
 
     public function getOrderById($id) {
