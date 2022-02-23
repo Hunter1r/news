@@ -17,13 +17,13 @@ class Controller extends BaseController
     public function index() {
         $newsModel = new News();
         $model = new Category();
-        $categories = $model->getCategories();
+        $categories = $model->getCategories()->toArray();
 
         return view('layouts.mainNews', [
             'categories'=>$categories,
-            'topNews0'=>$newsModel->getRndNews()[0],
-            'topNews1'=>$newsModel->getRndNews()[0],
-            'topNews2'=>$newsModel->getRndNews()[0],
+            'topNews0'=>$newsModel->getRndNews()->toArray(),
+            'topNews1'=>$newsModel->getRndNews()->toArray(),
+            'topNews2'=>$newsModel->getRndNews()->toArray(),
         ]);
     }
 

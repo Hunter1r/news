@@ -1,5 +1,6 @@
 @extends('layouts.main')
 @section('content')
+<h1>Request an order</h1>
 <form method = "POST" action="{{ route('import.store')}}">
   @csrf
     <div class="form-group">
@@ -18,8 +19,8 @@
 
     <div class="form-group">
       <label for="message">I want...</label>
-      <textarea class="form-control" id="message" rows="3" name="message" required></textarea>
+      <textarea class="form-control" id="message" rows="3" name="description" required></textarea>
     </div>
-    <button type="submit" class="btn btn-primary float-sm-end">Submit</button>
+    <button type="submit" class="btn btn-primary float-sm-end">Request</button>
   </form>
 @endsection

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Feedback;
+use App\Models\Category;
 
-class FeedbackController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,9 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        //
+        $categoryModel = new Category();
+        $categories = $categoryModel->getCategories();
+        return view('admin.categories.index',['categories'=>$categories]);
     }
 
     /**
@@ -24,7 +27,9 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-        return view('feedbackForm');
+        
+        $categoryModel = new Category();
+        return view('admin.categories.create', ['category'=>$categoryModel]);
     }
 
     /**
@@ -35,11 +40,12 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-
-        $feedbackModel = new Feedback();
-        $feedbackModel->fill($request->all());
-        $feedbackModel->save();
-        return redirect('/')->with('status', 'Feedback is created');
+        $categoryModel = new Category();
+        $categoryModel->fill($request->except('_token'));
+        
+        $categoryModel->save();
+        return redirect()->route('admin.categories.index')
+        ->with('status', 'Category is created');
     }
 
     /**
@@ -56,12 +62,12 @@ class FeedbackController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+        return view('admin.categories.create', ['category'=>$category]);
     }
 
     /**
@@ -73,17 +79,22 @@ class FeedbackController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = Category::all()->find($id);
+        $item->fill($request->all());
+        $item->save();
+        return redirect()->route('admin.categories.index')
+        ->with('status', 'Category is updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return response()->json(['message'=>'category was deleted']);
     }
 }

@@ -9,9 +9,12 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name'];
+    public $timestamps = false;
+
     public function getCategories() {
 
-        $categories = \DB::select("SELECT categories.id, categories.name FROM categories");
+        $categories = Category::select('id as category_id', 'name as category_name')->paginate(10);
 
         return $categories;
     }

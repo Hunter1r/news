@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Feedback;
 
@@ -14,7 +15,9 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        //
+        $feedbacksModel = new Feedback();
+        $feedbacks = $feedbacksModel->getFeedbacks();
+        return view('admin.feedbacks.index', ['feedbacks'=>$feedbacks]);
     }
 
     /**
@@ -24,7 +27,8 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-        return view('feedbackForm');
+        $feedbackModel = new Feedback();
+        return view('admin.feedbacks.create', ['feedback'=>$feedbackModel]);
     }
 
     /**
@@ -35,11 +39,12 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-
         $feedbackModel = new Feedback();
-        $feedbackModel->fill($request->all());
+        $feedbackModel->fill($request->except('_token'));
+        
         $feedbackModel->save();
-        return redirect('/')->with('status', 'Feedback is created');
+        return redirect()->route('admin.feedbacks.index')
+        ->with('status', 'Feedback is created');
     }
 
     /**
@@ -56,34 +61,38 @@ class FeedbackController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Feedback  $feedback
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Feedback  $feedback)
     {
-        //
+        return view('admin.feedbacks.create', ['feedback'=>$feedback]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Feedback  $feedback
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Feedback $feedback)
     {
-        //
+        $feedback->fill($request->all());
+        $feedback->save();
+        return redirect()->route('admin.feedbacks.index')
+        ->with('status', 'Feedback is updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Feedback  $feedback
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Feedback $feedback)
     {
-        //
+        $feedback->delete();
+        return response()->json(['message'=>'feedback was deleted successful']);
     }
 }

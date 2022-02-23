@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Feedback;
+use App\Models\Order;
 
-class FeedbackController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,9 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        //
+        $ordersModel = new Order();
+        $orders = $ordersModel->getOrders();
+        return view('admin.orders.index', ['orders'=>$orders]);
     }
 
     /**
@@ -24,7 +27,8 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-        return view('feedbackForm');
+        $ordersModel = new Order();
+        return view('admin.orders.create', ['order'=>$ordersModel]);
     }
 
     /**
@@ -35,11 +39,11 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-
-        $feedbackModel = new Feedback();
-        $feedbackModel->fill($request->all());
-        $feedbackModel->save();
-        return redirect('/')->with('status', 'Feedback is created');
+        $ordersModel = new Order();
+        $ordersModel->fill($request->except('_token'));
+        $ordersModel->save();
+        return redirect()->route('admin.orders.index')
+        ->with('status', 'Order is created');
     }
 
     /**
@@ -56,34 +60,38 @@ class FeedbackController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Order $order)
     {
-        //
+        return view('admin.orders.create', ['order'=>$order]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Order $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Order $order)
     {
-        //
+        $order->fill($request->all());    
+        $order->save();
+        return redirect()->route('admin.orders.index')
+        ->with('status', 'Order is updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Order $order)
     {
-        //
+        $order->delete();
+        return response()->json(['message'=>'order deleted successful']);
     }
 }

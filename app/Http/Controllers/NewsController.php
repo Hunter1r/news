@@ -12,29 +12,27 @@ class NewsController extends Controller
 
     }
 
-    public function getNewsByCategory($category_id) {
-
+    public function getNewsByCategory(Category $category) {
+        
         $newsModel = new News();
         $categoryModel = new Category();
 
         $categories = $categoryModel->getCategories();
-        $filteredNews = $newsModel->getNewsByCategory($category_id);
+        $filteredNews = $newsModel->getNewsByCategory($category->toArray()['id']);
         
-        return view('layouts.newsByCategory', ['news'=>$filteredNews,
-    'categories' => $categories]);
+        return view('layouts.newsByCategory', ['news'=>$filteredNews->toArray(),
+    'categories' => $categories->toArray()]);
 
     }
 
-    public function getNewsItem($category_id, $id) {
-        
+    public function getNewsItem(Category $category, News $news) {
         $newsModel = new News();
         $categoryModel = new Category();
 
-        $categories = $categoryModel->getCategories();
+        $categories = $categoryModel->getCategories()->toArray();
         
-        $item = $newsModel->getNewsItem($category_id,$id);
-        
-        if(empty($item)){
+        $item = $newsModel->getNewsItem($category->toArray()['id'],$news->toArray()['id']);
+        if(empty($item->toArray())){
             abort(404);
         }
         return view('layouts.newsItem', ['item'=>$item[0], 'categories' => $categories]);

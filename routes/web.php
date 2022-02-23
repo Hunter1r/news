@@ -3,9 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ImportNewsController;
+use App\Models\Category;
+use App\Models\News;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,6 +31,16 @@ Route::get('/hello/{name}', fn (string $name) =>
 
 Route::get('/about', fn () => view('about')
 );
+// Route::get('/admin', fn () => view('admin.index')
+// );
+
+Route::group(['prefix'=>'admin', 'as'=>'admin.'], function(){
+    Route::view('/', 'layouts.adminMain')->name('admin');
+    Route::resource('/categories', AdminCategoryController::class);
+    Route::resource('/news', AdminNewsController::class);
+    Route::resource('/orders', AdminOrderController::class);
+    Route::resource('/feedbacks', AdminFeedbackController::class);
+});
 
 
 Route::resource('/feedback', FeedbackController::class);
@@ -38,11 +54,19 @@ Route::get('/news', fn () =>
     "News page"
 );
 
-Route::get('/news/{category_id}', [NewsController::class, 'getNewsByCategory'])
+Route::get('/news/{category}', [NewsController::class, 'getNewsByCategory'])
 ->name('news.category');
 
-Route::get('/news/{category_id}/{id}', [NewsController::class, 'getNewsItem'])
+Route::get('/news/{category}/{news}', [NewsController::class, 'getNewsItem'])
 ->where('id', '\d+')
 ->name('news.item');
+
+
+// Route::get('/news/{category}/{news}', function(Category $category, News $news){
+// // dd($news);
+// view('layouts.newsItem', ['item'=>$news]);
+// });
+
+
 
 Route::get('/category', [CategoryController::class, 'index']);

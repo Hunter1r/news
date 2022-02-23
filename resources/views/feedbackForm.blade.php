@@ -1,5 +1,6 @@
 @extends('layouts.main')
 @section('content')
+<h1>Send feedback</h1>
 <form method = "POST" action="{{ route('feedback.store')}}">
   @csrf
     <div class="form-group">
@@ -14,8 +15,8 @@
 
     <div class="form-group">
       <label for="message">Feedback</label>
-      <textarea class="form-control" id="message" rows="3" name="message" required></textarea>
+      <textarea class="form-control" id="message" rows="3" name="feedback" required></textarea>
     </div>
-    <button type="submit" class="btn btn-primary float-sm-end">Submit</button>
+    <button type="submit" class="btn btn-primary float-sm-end">Send</button>
   </form>
 @endsection
