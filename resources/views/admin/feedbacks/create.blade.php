@@ -1,6 +1,7 @@
 @extends('layouts.adminMain');
 
 @section('content')
+@include('message')
     <form method="POST"
         @if($feedback->id)
         action="{{ route('admin.feedbacks.update',['feedback'=>$feedback]) }}"
@@ -23,21 +24,21 @@
         <div class="row my-2">
             <label for="name" class="col-sm-1 col-form-label">Name</label>
             <div class="col-sm-11">
-                <input type="input" class="form-control" id="name" name="name" value="{{$feedback->name}}" required>
+                <input type="input" class="form-control" id="name" name="name" value="{{old('name') ? old('name') : $feedback->name}}">
             </div>
         </div>
 
         <div class="row my-2">
             <label for="email" class="col-sm-1 col-form-label">E-mail</label>
             <div class="col-sm-11">
-                <input type="input" class="form-control" id="email" name="email" value="{{$feedback->email}}" required>
+                <input type="input" class="form-control" id="email" name="email" value="{{old('email') ? old('email') :$feedback->email}}">
             </div>
         </div>
 
         <div class="row my-2">
             <label for="feedback" class="col-sm-1 col-form-label">Feedback</label>
             <div class="col-sm-11">
-                <input type="input" class="form-control" id="feedback" name="feedback" value="{{$feedback->feedback}}" required>
+                <input type="input" class="form-control" id="feedback" name="feedback" value="{{old('feedback') ? old('feedback') : $feedback->feedback}}">
             </div>
         </div>
 

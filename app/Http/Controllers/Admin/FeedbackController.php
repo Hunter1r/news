@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\Feedbacks\CreateRequest;
+use App\Http\Requests\Feedbacks\UpdateRequest;
 use App\Models\Feedback;
 
 class FeedbackController extends Controller
@@ -34,17 +36,18 @@ class FeedbackController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $feedbackModel = new Feedback();
-        $feedbackModel->fill($request->except('_token'));
+        $feedback = Feedback::create($request->validated());
+        if($feedback) {
+            return redirect()->route('admin.feedbacks.index')
+            ->with('success', 'Feedback is created');
+        }
+        return back()->with('error', 'Feedback isn\'t created');
         
-        $feedbackModel->save();
-        return redirect()->route('admin.feedbacks.index')
-        ->with('status', 'Feedback is created');
     }
 
     /**
@@ -72,16 +75,19 @@ class FeedbackController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param UpdateRequest $request
      * @param  Feedback  $feedback
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Feedback $feedback)
+    public function update(UpdateRequest $request, Feedback $feedback)
     {
-        $feedback->fill($request->all());
-        $feedback->save();
-        return redirect()->route('admin.feedbacks.index')
-        ->with('status', 'Feedback is updated');
+        $feedback->fill($request->validated());
+        if($feedback->save()) {
+            return redirect()->route('admin.feedbacks.index')
+            ->with('success', 'Feedback is updated');
+        }
+        return back()->with('error', 'Feedback isn\'t updated');
+        
     }
 
     /**

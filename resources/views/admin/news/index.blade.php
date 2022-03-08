@@ -7,6 +7,7 @@
             <a class="btn btn-success" href="{{ route('admin.news.create') }}" role="button">Add</a>
         </div>
     </div>
+    @include('message')
 
     <div class="table-responsive">
         <table class="table table-striped table-sm">
@@ -54,6 +55,14 @@
         </table>
     </div>
     {{$news->links()}}
+    {{-- @if($errors->any())
+    @foreach($errors->all() as $err)
+    <x-alert :message="$err"></x-alert>
+    @endforeach
+    @endif --}}
+    {{-- @if(session()->has('success'))
+    <x-alert :message="session()->get('success')"></x-alert>
+    @endif --}}
 
     <x-modal-ok-cancel></x-modal-ok-cancel>
     <x-toast></x-toast>

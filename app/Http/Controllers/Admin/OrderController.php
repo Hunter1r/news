@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\Orders\CreateRequest;
+use App\Http\Requests\Orders\UpdateRequest;
 use App\Models\Order;
 
 class OrderController extends Controller
@@ -34,16 +36,20 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
+        
         $ordersModel = new Order();
-        $ordersModel->fill($request->except('_token'));
-        $ordersModel->save();
-        return redirect()->route('admin.orders.index')
-        ->with('status', 'Order is created');
+        $ordersModel->fill($request->validated());
+        if($ordersModel->save()) {
+            return redirect()->route('admin.orders.index')
+            ->with('success', 'Order is created');
+        }
+        return back()->with('error', 'Order isn\'t created');
+
     }
 
     /**
@@ -71,16 +77,19 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param UpdateRequest $request
      * @param  Order $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(UpdateRequest $request, Order $order)
     {
-        $order->fill($request->all());    
-        $order->save();
-        return redirect()->route('admin.orders.index')
-        ->with('status', 'Order is updated');
+        $order->fill($request->validated());    
+        if($order->save()) {
+            return redirect()->route('admin.orders.index')
+            ->with('success', 'Order is updated');
+        }
+        return back()->with('error', 'Order isn\'t updated');
+        
     }
 
     /**

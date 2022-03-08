@@ -11,6 +11,15 @@ class News extends Model
 
     protected $fillable = ['news_id','title','date','slug','author','active','image','description','category_id'];
 
+    // public static function rules() {
+    //     $tableNameCategory = (new Category())->getTable();
+    //     return [
+    //         'date' => 'required|date',
+    //         'title' => 'required|max:150',
+    //         'author' => 'required|max:100',
+    //         'category_id' => "required|exists:{$tableNameCategory},id"
+    //     ];
+    // }
     public function getNews() {
 
         return News::select('news.id as news_id', 'title','date','slug','author','active','image','description','categories.id as category_id', 'categories.name as category_name')

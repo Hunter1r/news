@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\Categories\CreateRequest;
+use App\Http\Requests\Categories\UpdateRequest;
 use App\Models\Category;
 
 class CategoryController extends Controller
@@ -35,17 +37,26 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $categoryModel = new Category();
-        $categoryModel->fill($request->except('_token'));
+
         
-        $categoryModel->save();
-        return redirect()->route('admin.categories.index')
-        ->with('status', 'Category is created');
+        $category = Category::create($request->validated());
+        if($category) {
+            return redirect()->route('admin.categories.index')->with('success', 'Category was created');
+        }
+        return back()->with('error', 'Category isn\'t added')
+        ->withInput();
+
+        // $categoryModel = new Category();
+        // $categoryModel->fill($request->except('_token'));
+        
+        // $categoryModel->save();
+        // return redirect()->route('admin.categories.index')
+        // ->with('status', 'Category is created');
     }
 
     /**
@@ -73,17 +84,23 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param UpdateRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
+        
+
         $item = Category::all()->find($id);
-        $item->fill($request->all());
-        $item->save();
-        return redirect()->route('admin.categories.index')
-        ->with('status', 'Category is updated');
+        $item->fill($request->validated());
+        if($item->save()) {
+            return redirect()->route('admin.categories.index')
+            ->with('success', 'Category is updated');
+        }
+
+        return back()->with('error', 'Category isn\'t added' )->withInput();
+        
     }
 
     /**

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('categories')
-    @foreach($categories as $category)
+    @foreach($categories['data'] as $category)
     <a class="p-2 link-secondary" href="/news/{{ $category['category_id'] }}">{{ $category['category_name'] }}</a>
     @endforeach
 @endsection

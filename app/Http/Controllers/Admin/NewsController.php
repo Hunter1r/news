@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\News\CreateRequest;
+use App\Http\Requests\News\UpdateRequest;
 use App\Models\News;
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class NewsController extends Controller
 {
@@ -39,22 +42,24 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $newsModel = new News();
-        $newsModel->fill($request->except('_token'));
-        $newsModel->slug = Str::of($request->input('title'))->slug('-');
-        if($request->has('active')) {
-            $newsModel->active = 1;
-        } else {
-            $newsModel->active = 0;
+
+        $created = News::create($request->validated() + [
+            'slug' => Str::slug($request->input('title')),
+            'active' => $request->has('active') ? 1 : 0
+        ]);
+        
+        if($created) {
+            return redirect()->route('admin.news.index')
+            ->with('success', 'record is created');
         }
-        $newsModel->save();
-        return redirect()->route('admin.news.index')
-        ->with('status', 'News is created');
+        return back()->with('error', 'News isn\'t added')
+        ->withInput();
+
     }
 
     /**
@@ -84,23 +89,33 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param UpdateRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        $item = News::all()->find($id);
-        $item->fill($request->except('_token'));
-        $item->slug = Str::of($request->input('title'))->slug('-');
+        $arr = $request->validated();
         if($request->has('active')) {
-            $item->active = 1;
+            $active = 1;
         } else {
-            $item->active = 0;
+            $active = 0;
         }
-        $item->save();
-        return redirect()->route('admin.news.index')
-        ->with('status', 'Item news is updated');
+        $arr += [
+            'slug' => Str::of($request->input('title'))->slug('-'),
+            'active' => $active,
+        ];
+
+        $item = News::all()->find($id);
+        $item->fill($arr);
+        
+        if($item->save()) {
+            return redirect()->route('admin.news.index')
+            ->with('success', 'Item news is updated');
+        }
+        return back()->with('error', 'News isn\'t updated')
+        ->withInput();
+        
     }
 
     /**

@@ -23,28 +23,32 @@
         <div class="row my-2">
             <label for="name" class="col-sm-1 col-form-label">Name</label>
             <div class="col-sm-11">
-                <input type="input" class="form-control" id="name" name="name" value="{{$order->name}}" required>
+                <input type="input" class="form-control" id="name" name="name" value="{{old('name') ? old('name') : $order->name}}">
+                @error('name') <strong style="color:red">{{ $message }}</strong>@enderror
             </div>
         </div>
 
         <div class="row my-2">
             <label for="email" class="col-sm-1 col-form-label">E-mail</label>
             <div class="col-sm-11">
-                <input type="input" class="form-control" id="email" name="email" value="{{$order->email}}" required>
+                <input type="input" class="form-control" id="email" name="email" value="{{old('email') ? old('email') : $order->email}}">
+                @error('email') <strong style="color:red">{{ $message }}</strong>@enderror
             </div>
         </div>
 
         <div class="row my-2">
             <label for="phone" class="col-sm-1 col-form-label">Phone</label>
             <div class="col-sm-11">
-                <input type="input" class="form-control" id="phone" name="phone" value="{{$order->phone}}" required>
+                <input type="input" class="form-control" id="phone" name="phone" value="{{old('phone') ? old('phone') : $order->phone}}">
+                @error('phone') <strong style="color:red">{{ $message }}</strong>@enderror
             </div>
         </div>
 
         <div class="row my-2">
             <label for="description" class="col-sm-1 col-form-label">Description</label>
             <div class="col-sm-11">
-                <input type="input" class="form-control" id="description" name="description" value="{{$order->description}}" required>
+                <input type="input" class="form-control" id="description" name="description" value="{{old('description') ? old('description') : $order->description}}">
+                @error('description') <strong style="color:red">{{ $message }}</strong>@enderror
             </div>
         </div>
 

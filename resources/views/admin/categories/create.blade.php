@@ -24,7 +24,8 @@
         <div class="row my-2">
             <label for="name" class="col-sm-1 col-form-label">Name</label>
             <div class="col-sm-11">
-                <input type="input" class="form-control" id="name" name="name" value="{{$category->name}}" required>
+                <input type="input" class="form-control" id="name" name="name" value="{{$category->name}}">
+                @error('name') <strong style="color: red">{{ $message }}</strong>@enderror
             </div>
         </div>
         
