@@ -23,6 +23,7 @@
       @auth
         <a class="btn btn-sm btn-outline-secondary" href="{{ route('logout') }}">Sign out</a>    
       @endauth
+      <a style="margin-right: 5px" class="btn btn-sm btn-outline-secondary" href="{{ route('vkLogin') }}">Login with VK</a>
       
       
     </div>

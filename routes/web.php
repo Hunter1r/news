@@ -8,9 +8,11 @@ use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\ParserController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ImportNewsController;
+use App\Http\Controllers\LoginController;
 use App\Models\Category;
 use App\Models\News;
 /*
@@ -46,6 +48,7 @@ Route::group(['middleware'=>'auth'], function() {
             'uses' => 'App\Http\Controllers\Admin\ProfileController@update',
             'as' => 'updateProfile'
         ]);
+        Route::get('/parser',  [ParserController::class, 'index'])->name('parser');
     });
     Route::get('logout', function() {
         \Auth::logout();
@@ -59,7 +62,8 @@ Route::group(['middleware'=>'auth'], function() {
 Route::resource('/feedback', FeedbackController::class);
 Route::resource('/news/import', ImportNewsController::class);
 
-
+Route::get('/auth/vk', [LoginController::class, 'loginVK'])->name('vkLogin');
+Route::get('/auth/vk/response', [LoginController::class, 'responseVK'])->name('vkResponse');
 
 // Route::get('/news/import', fn () => view('importNewsForm'))->name('news.import');
 

@@ -150,6 +150,12 @@
               Update profile
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.parser') }}">
+              <span data-feather="file-text"></span>
+              Parser from Yandex Sport
+            </a>
+          </li>
         </ul>
       </div>
     </nav>
