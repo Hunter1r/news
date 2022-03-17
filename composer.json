@@ -12,7 +12,8 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-        "orchestra/parser": "*"
+        "orchestra/parser": "*",
+        "socialiteproviders/vkontakte": "^4.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
