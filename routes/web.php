@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ParserController;
+use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ImportNewsController;
@@ -49,6 +50,8 @@ Route::group(['middleware'=>'auth'], function() {
             'as' => 'updateProfile'
         ]);
         Route::get('/parser',  [ParserController::class, 'index'])->name('parser');
+        Route::post('images', [ImageController::class, 'store'])->name('images.store');
+        Route::delete('remove/{news}', [ImageController::class, 'destroy'])->name('news.image.remove');        
     });
     Route::get('logout', function() {
         \Auth::logout();

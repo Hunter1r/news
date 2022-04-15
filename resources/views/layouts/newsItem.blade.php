@@ -18,7 +18,15 @@
           <a href="{{ route('news.category', ['category'=>$item->category_id]) }}" class="stretched-link">Back</a>
         </div>
         <div class="col-auto d-none d-lg-block">
+          @if($item['image'])
+          <div style="width: 200px; height:250px; 
+          background-image:url({{ Storage::disk('public')->url($item['image']) }});
+          background-size:cover; background-repeat:no-repeat; background-position:-95px 0px"
+          >
+          </div>
+          @else
           <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+          @endif
         </div>
       </div>
     </div>

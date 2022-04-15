@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\News\CreateRequest;
 use App\Http\Requests\News\UpdateRequest;
+use App\Services\UploadService;
 use App\Models\News;
 use App\Models\Category;
 use Illuminate\Support\Str;
@@ -107,6 +108,10 @@ class NewsController extends Controller
         ];
 
         $item = News::all()->find($id);
+
+        if($request->hasFile('image')) {
+            $arr['image'] = app(UploadService::class)->start($request->file('image'));
+		}
         $item->fill($arr);
         
         if($item->save()) {

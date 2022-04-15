@@ -37,6 +37,10 @@
     
     <!-- Custom styles for this template -->
     <link href="{{asset('css/dashboard.css')}}" rel="stylesheet">
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+    {{-- <script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script> --}}
+
   </head>
   <body>
   
@@ -153,7 +157,7 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.parser') }}">
               <span data-feather="file-text"></span>
-              Parser from Yandex Sport
+              Parser from Yandex NEWS (add jobs to Redis)
             </a>
           </li>
         </ul>
@@ -168,6 +172,10 @@
   </div>
 </div>
 
+    {{-- <script src="{{asset('js/dist/bundle.js')}}"></script> --}}
+    <script>
+      console.log('editor', window);
+    </script>
     <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
     @stack('scripts')
