@@ -31,7 +31,7 @@ class CreateRequest extends FormRequest
             'author' => ['required', 'max:100'],
             'category_id' => ["required", "exists:{$tableNameCategory},id"],
             'description' => ['nullable'],
-            'image' => ['nullable'],
+            'image' => ['nullable', 'file', 'image', 'mimes:jpg,png'],
 
         ];
     }

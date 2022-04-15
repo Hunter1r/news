@@ -55,14 +55,6 @@
         </table>
     </div>
     {{$news->links()}}
-    {{-- @if($errors->any())
-    @foreach($errors->all() as $err)
-    <x-alert :message="$err"></x-alert>
-    @endforeach
-    @endif --}}
-    {{-- @if(session()->has('success'))
-    <x-alert :message="session()->get('success')"></x-alert>
-    @endif --}}
 
     <x-modal-ok-cancel></x-modal-ok-cancel>
     <x-toast></x-toast>
@@ -122,7 +114,7 @@
                             toastDescription.textContent = 'News with id=' + res.id +
                                 ' and title ' + res.title + 'is deleted';
                             myModal.hide();
-                            location.reload();
+                            // location.reload();
                             // toastObj.show();  
                         })
                     });

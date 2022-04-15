@@ -27,7 +27,15 @@
         <a href="{{ route('news.item', ['category'=>$topNews1['category_id'], 'news'=>$topNews1['news_id']]) }}" class="stretched-link">Continue reading</a>
       </div>
       <div class="col-auto d-none d-lg-block">
+        @if($topNews1['image'])
+        <div style="width: 200px; height:250px; 
+        background-image:url({{ Storage::disk('public')->url($topNews1['image']) }});
+        background-size:cover; background-repeat:no-repeat; background-position:-95px 0px"
+        >
+        </div>
+        @else
         <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+        @endif
       </div>
     </div>
   </div>
@@ -44,7 +52,15 @@
         <a href="{{ route('news.item', ['category'=>$topNews2['category_id'], 'news'=>$topNews2['news_id']]) }}" class="stretched-link">Continue reading</a>
       </div>
       <div class="col-auto d-none d-lg-block">
+        @if($topNews2['image'])
+        <div style="width: 200px; height:250px; 
+        background-image:url({{ Storage::disk('public')->url($topNews2['image']) }});
+        background-size:cover; background-repeat:no-repeat; background-position:-95px 0px"
+        >
+        </div>
+        @else
         <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+        @endif
       </div>
     </div>
   </div>

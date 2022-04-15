@@ -13,7 +13,9 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
         "orchestra/parser": "*",
-        "socialiteproviders/vkontakte": "^4.2"
+        "predis/predis": "^1.1",
+        "socialiteproviders/vkontakte": "^4.2",
+        "unisharp/laravel-filemanager": "^2.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
